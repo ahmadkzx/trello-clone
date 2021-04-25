@@ -1,1 +1,5 @@
-export default {}
+export default {
+	lists(state) {
+		return state.lists
+	}
+}

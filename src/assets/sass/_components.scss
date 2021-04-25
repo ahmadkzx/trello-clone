@@ -1,0 +1,56 @@
+.btn {
+	padding: .5rem 1.5rem;
+	border: none;
+	outline: none;
+	border-radius: .2rem;
+	cursor: pointer;
+	transition: all .2s;
+
+	&:hover {
+		filter: brightness(90%);
+	}
+
+	&.btn-glass {
+		background: rgba(white, .2);
+	}
+
+	&.btn-primary {
+		background: $royal-blue;
+	}
+
+	&.btn-outline-primary {
+		border: 1px solid $royal-blue;
+		color: $royal-blue;
+		background: none;
+	}
+}
+
+.text-input {
+	position: relative;
+	padding: .5rem 1.5rem;
+	background: $gray-700;
+	outline: none;
+	border: none;
+	border-radius: .2rem;
+	transition: all .2s;
+
+	&::before {
+		content: "";
+		position: absolute;
+		width: calc(100% + 4px);
+		height: calc(100% + 4px);
+		top: -2px;
+		right: -2px;
+		background: $royal-blue;
+		transition: all .2s;
+		opacity: 0;
+	}
+
+	&:focus {
+		box-shadow: 0 0 5px rgba($royal-blue, .8);
+
+		&::before {
+			opacity: 1;
+		}
+	}
+}

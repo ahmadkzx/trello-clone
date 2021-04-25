@@ -1,0 +1,21 @@
+.create-list {
+	position: relative;
+	width: 15rem;
+
+	&__show-form {
+		width: 100%;
+	}
+
+	&-form {
+		width: 100%;
+
+		&__input {
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+
+		&__create {
+			margin-left: 1rem;
+		}
+	}
+}

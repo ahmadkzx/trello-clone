@@ -1,10 +1,18 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <Board />
+  </div>
 </template>
 
 <script>
+import Board from './components/Board'
+
 export default {
-  name: 'App'
+  name: 'App',
+
+  components: {
+    Board
+  }
 }
 </script>
 
