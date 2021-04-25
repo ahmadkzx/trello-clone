@@ -1,0 +1,18 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Vazir;
+	box-sizing: border-box;
+}
+
+body {
+	background: $gray-800;
+}
+
+a {
+	text-decoration: none;
+}
+
+*:not(span):not(i) {
+	color: white;
+}
