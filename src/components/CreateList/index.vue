@@ -55,6 +55,7 @@ export default {
 
       this.$store.commit('createList', /*listName*/ this.newListName)
 
+      this.newListName = ''
       this.isShowForm = false
     }
   }
