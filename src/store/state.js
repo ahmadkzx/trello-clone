@@ -1,3 +1,7 @@
 export default {
-	lists: []
+	lists: [{
+		name: 'کار های انجام شده',
+		card: [],
+		id: 25,
+	}]
 }

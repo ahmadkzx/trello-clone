@@ -1,0 +1,18 @@
+@import "@/assets/sass/_variables";
+
+.list {
+	width: 15rem;
+	padding: .5rem 1rem;
+	border-radius: .2rem;
+	background: $gray-700;
+	margin-left: 1rem;
+
+	&-header {
+		width: 100%;
+
+		&__title {
+			font-weight: bold;
+			font-size: .9rem;
+		}
+	}
+}
