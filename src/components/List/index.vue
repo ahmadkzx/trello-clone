@@ -7,17 +7,21 @@
 		<div class="list-cards" v-if="cards.length">
 			<Card v-for="(card, index) in cards" :key="`${listId}-${index}`" :summary="card.summary" />
 		</div>
+
+		<AddCard :listId="listId" />
   </div>
 </template>
 
 <script>
 import Card from '../Card'
+import AddCard from '../AddCard'
 
 export default {
   name: 'List',
 
 	components: {
-		Card
+		Card,
+		AddCard
 	},
 
   props: {

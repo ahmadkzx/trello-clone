@@ -1,0 +1,25 @@
+@import "@/assets/sass/_variables";
+
+.add-card {
+	position: relative;
+	width: 100%;
+	margin-top: 1rem;
+
+	&__show-form {
+		width: 100%;
+	}
+
+	&-form {
+		width: 100%;
+
+		&__input {
+			width: 100%;
+			margin-bottom: 1rem;
+			background: $gray-800;
+		}
+
+		&__create {
+			margin-left: 1rem;
+		}
+	}
+}

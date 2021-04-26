@@ -6,8 +6,13 @@ export default {
 	createList(state, name) {
 		state.lists.push({
 			name,
-			card: [],
+			cards: [],
 			id: makeUniqueId(),
 		})
+	},
+
+	addCard(state, { listId, summary }) {
+		let list = state.lists.find(list => list.id === listId)
+		list.cards.push({ summary })
 	}
 }
