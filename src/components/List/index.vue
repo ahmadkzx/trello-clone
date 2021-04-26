@@ -2,9 +2,9 @@
   <div
 		:class="['list', { 'dragging': isDragging }]"
 		draggable
-		@drop="handleDrop"
-		@dragend="handleDragEnd"
-		@dragstart="handleStartDrag"
+		@drop.self="handleDrop"
+		@dragend.self="handleDragEnd"
+		@dragstart.self="handleStartDrag"
 	>
     <div class="list-header">
       <span class="list-header__title">{{ name }}</span>
