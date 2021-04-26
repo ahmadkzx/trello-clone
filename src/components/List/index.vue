@@ -1,5 +1,11 @@
 <template>
-  <div class="list" draggable @drop="handleDrop" @dragstart="handleStartDrag">
+  <div
+		:class="['list', { 'dragging': isDragging }]"
+		draggable
+		@drop="handleDrop"
+		@dragend="handleDragEnd"
+		@dragstart="handleStartDrag"
+	>
     <div class="list-header">
       <span class="list-header__title">{{ name }}</span>
     </div>
@@ -30,15 +36,23 @@ export default {
     listId: [Number, String]
   },
 
+	data: () => ({
+		isDragging: false
+	}),
+
 	mounted() {
-		const events = [ 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop' ]
-		events.forEach(evt => this.$el.addEventListener(evt, e => {
-			e.preventDefault()
-  		e.stopPropagation()
-		}))
+		this.setEventListeners()
 	},
 
 	methods: {
+		setEventListeners() {
+			const events = [ 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop' ]
+			events.forEach(evt => this.$el.addEventListener(evt, e => {
+				e.preventDefault()
+				e.stopPropagation()
+			}))
+		},
+
 		handleDrop(e) {
 			const draggedListId = e.dataTransfer.getData("Text")
 			if (!draggedListId) return
@@ -47,7 +61,12 @@ export default {
 		},
 
 		handleStartDrag(e) {
+			this.isDragging = true
 			e.dataTransfer.setData('Text', this.listId);
+		},
+
+		handleDragEnd() {
+			this.isDragging = false
 		}
 	}
 }

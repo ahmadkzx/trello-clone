@@ -8,6 +8,12 @@
 	border-radius: .2rem;
 	background: $gray-700;
 	margin-left: 1rem;
+	transition: all .2s;
+	cursor: cursor;
+
+	&.dragging {
+		opacity: 0;
+	}
 
 	&-header {
 		width: 100%;
@@ -18,4 +24,5 @@
 			font-size: .9rem;
 		}
 	}
+
 }
