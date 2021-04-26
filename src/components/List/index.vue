@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" draggable @drop="handleDrop" @dragstart="handleStartDrag">
     <div class="list-header">
       <span class="list-header__title">{{ name }}</span>
     </div>
@@ -28,7 +28,28 @@ export default {
     name: String,
     cards: Array,
     listId: [Number, String]
-  }
+  },
+
+	mounted() {
+		const events = [ 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop' ]
+		events.forEach(evt => this.$el.addEventListener(evt, e => {
+			e.preventDefault()
+  		e.stopPropagation()
+		}))
+	},
+
+	methods: {
+		handleDrop(e) {
+			const draggedListId = e.dataTransfer.getData("Text")
+			if (!draggedListId) return
+
+    	this.$store.commit('moveList', { from: draggedListId, to: this.listId })
+		},
+
+		handleStartDrag(e) {
+			e.dataTransfer.setData('Text', this.listId);
+		}
+	}
 }
 </script>
 

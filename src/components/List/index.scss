@@ -1,7 +1,9 @@
 @import "@/assets/sass/_variables";
 
 .list {
+	position: relative;
 	width: 15rem;
+	min-width: 15rem;
 	padding: .5rem 1rem 1rem 1rem;
 	border-radius: .2rem;
 	background: $gray-700;
