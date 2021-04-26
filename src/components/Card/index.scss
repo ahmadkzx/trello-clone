@@ -1,0 +1,18 @@
+@import "@/assets/sass/_variables";
+
+.card {
+	padding: .5rem;
+	background: $gray-600;
+	border-radius: .2rem;
+	font-size: .85rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+
+	&:active {
+		cursor: grabbing;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}

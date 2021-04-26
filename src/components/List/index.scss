@@ -2,13 +2,14 @@
 
 .list {
 	width: 15rem;
-	padding: .5rem 1rem;
+	padding: .5rem 1rem 1rem 1rem;
 	border-radius: .2rem;
 	background: $gray-700;
 	margin-left: 1rem;
 
 	&-header {
 		width: 100%;
+		margin-bottom: 1rem;
 
 		&__title {
 			font-weight: bold;
