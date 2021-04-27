@@ -2,16 +2,22 @@
   <div
 		:class="['list', { 'dragging': isDragging }]"
 		draggable
-		@drop.self="handleDrop"
-		@dragend.self="handleDragEnd"
-		@dragstart.self="handleStartDrag"
+		@drop="handleDrop"
+		@dragend="handleDragEnd"
+		@dragstart="handleStartDrag"
 	>
     <div class="list-header">
-      <span class="list-header__title">{{ name }}</span>
+      <span class="list-header__title">{{ listName }}</span>
     </div>
 
-		<div class="list-cards" v-if="cards.length">
-			<Card v-for="(card, index) in cards" :key="`${listId}-${index}`" :summary="card.summary" />
+		<div class="list-listCards" v-if="listCards.length">
+			<Card
+				:listId="listId"
+				:cardId="card.id"
+				:key="`${listId}-${index}`"
+				:cardSummary="card.summary"
+				v-for="(card, index) in listCards"
+			/>
 		</div>
 
 		<AddCard :listId="listId" />
@@ -21,9 +27,12 @@
 <script>
 import Card from '../Card'
 import AddCard from '../AddCard'
+import preventDragAndDropEvents from '@/mixins/preventDragAndDropEvents'
 
 export default {
   name: 'List',
+
+	mixins: [ preventDragAndDropEvents ],
 
 	components: {
 		Card,
@@ -31,30 +40,29 @@ export default {
 	},
 
   props: {
-    name: String,
-    cards: Array,
-    listId: [Number, String]
+    listName: {
+			type: String,
+			required: true
+		},
+		
+    listCards: {
+			type: Array,
+			required: true
+		},
+
+    listId: {
+			type: [Number, String],
+			required: true
+		}
   },
 
 	data: () => ({
 		isDragging: false
 	}),
 
-	mounted() {
-		this.setEventListeners()
-	},
-
 	methods: {
-		setEventListeners() {
-			const events = [ 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop' ]
-			events.forEach(evt => this.$el.addEventListener(evt, e => {
-				e.preventDefault()
-				e.stopPropagation()
-			}))
-		},
-
 		handleDrop(e) {
-			const draggedListId = e.dataTransfer.getData("Text")
+			const draggedListId = e.dataTransfer.getData('Text')
 			if (!draggedListId) return
 
     	this.$store.commit('moveList', { from: draggedListId, to: this.listId })
@@ -62,7 +70,7 @@ export default {
 
 		handleStartDrag(e) {
 			this.isDragging = true
-			e.dataTransfer.setData('Text', this.listId);
+			e.dataTransfer.setData('Text', this.listId)
 		},
 
 		handleDragEnd() {

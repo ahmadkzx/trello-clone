@@ -3,8 +3,8 @@
     <List
       :key="list.id"
       :listId="list.id"
-      :name="list.name"
-      :cards="list.cards"
+      :listName="list.name"
+      :listCards="list.cards"
       v-for="list in lists"
     />
     <CreateList />

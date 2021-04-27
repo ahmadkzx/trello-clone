@@ -12,7 +12,10 @@ export default {
 
 	addCard(state, { listId, summary }) {
 		let list = state.lists.find(list => list.id === listId)
-		list.cards.push({ summary })
+		list.cards.push({
+			summary,
+			id: makeUniqueId()
+		})
 	},
 
 	moveList(state, { from, to }) { /*from and to is list Ids*/
