@@ -19,8 +19,8 @@ export default {
 	},
 
 	moveList(state, { draggedListId, targetListId }) {
-		const draggedListIndex = state.lists.findIndex(lst => lst.id === draggedListId)
-		const targetListIndex = state.lists.findIndex(lst => lst.id === targetListId)
+		const draggedListIndex = getListIndex(state.lists, draggedListId)
+		const targetListIndex = getListIndex(state.lists, targetListId)
 
 		const draggedList = state.lists[draggedListIndex]
 		const targetList = state.lists[targetListIndex]
@@ -28,4 +28,9 @@ export default {
 		Vue.set(state.lists, targetListIndex, draggedList)
 		Vue.set(state.lists, draggedListIndex, targetList)
 	},
+}
+
+// HELPERS //
+function getListIndex(lists, id) {
+	return lists.findIndex(lst => lst.id === id)
 }
