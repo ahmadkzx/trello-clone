@@ -65,7 +65,7 @@ export default {
 			const draggedListId = e.dataTransfer.getData('Text')
 			if (!draggedListId) return
 
-    	this.$store.commit('moveList', { from: draggedListId, to: this.listId })
+    	this.$store.commit('moveList', { draggedListId, targetListId: this.listId })
 		},
 
 		handleStartDrag(e) {

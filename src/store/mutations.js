@@ -18,15 +18,14 @@ export default {
 		})
 	},
 
-	moveList(state, { from, to }) { /*from and to is list Ids*/
-		const toIndex = state.lists.findIndex(lst => lst.id === to)
-		const fromIndex = state.lists.findIndex(lst => lst.id === from)
+	moveList(state, { draggedListId, targetListId }) {
+		const draggedListIndex = state.lists.findIndex(lst => lst.id === draggedListId)
+		const targetListIndex = state.lists.findIndex(lst => lst.id === targetListId)
 
-		const draggedList = state.lists[fromIndex]
-		const droppedAreaList = state.lists[toIndex]
+		const draggedList = state.lists[draggedListIndex]
+		const targetList = state.lists[targetListIndex]
 
-		Vue.set(state.lists, toIndex, draggedList)
-		Vue.set(state.lists, fromIndex, droppedAreaList)
-
-	}
+		Vue.set(state.lists, targetListIndex, draggedList)
+		Vue.set(state.lists, draggedListIndex, targetList)
+	},
 }
