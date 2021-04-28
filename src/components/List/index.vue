@@ -10,7 +10,7 @@
       <span class="list-header__title">{{ listName }}</span>
     </div>
 
-		<div class="list-listCards" v-if="listCards.length">
+		<div class="list-cards" v-if="listCards.length">
 			<Card
 				:listId="listId"
 				:cardId="card.id"
