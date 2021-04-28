@@ -41,15 +41,17 @@ export default {
 
 	methods: {
 		handleDrop(e) {
-			const draggedCardData = e.dataTransfer.getData('Text')
-			if (!draggedCardData) return
+			const dragData = e.dataTransfer.getData('Text')
+			if (!dragData) return
 			
-			const draggedCardDataObj = JSON.parse(draggedCardData)
+			const dragDataObj = JSON.parse(dragData)
+			if (dragData.type === 'list') return
 
 			const payload = {
-				draggedCardData: draggedCardDataObj,
+				draggedCardData: dragDataObj.data,
 				targetCardData: {
-					listId: this.listId, cardId: this.cardId
+					listId: this.listId,
+					cardId: this.cardId
 				}
 			}
 
@@ -58,7 +60,14 @@ export default {
 
 		handleStartDrag(e) {
 			this.isDragging = true
-			const payload = { listId: this.listId, cardId: this.cardId }
+			const payload = {
+				type: 'card',
+				data: {
+					listId: this.listId,
+					cardId: this.cardId
+				}
+			}
+
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
 		},
 

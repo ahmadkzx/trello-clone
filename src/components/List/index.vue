@@ -62,15 +62,25 @@ export default {
 
 	methods: {
 		handleDrop(e) {
-			const draggedListId = e.dataTransfer.getData('Text')
-			if (!draggedListId) return
+			const dragData = e.dataTransfer.getData('Text')
+			if (!dragData) return
+			
+			const dragDataObj = JSON.parse(dragData)
+			if (dragData.type === 'card') return
 
-    	this.$store.commit('moveList', { draggedListId, targetListId: this.listId })
+    	this.$store.commit('moveList', { draggedListId: dragDataObj.data.listId, targetListId: this.listId })
 		},
 
 		handleStartDrag(e) {
 			this.isDragging = true
-			e.dataTransfer.setData('Text', this.listId)
+			const payload = {
+				type: 'list',
+				data: {
+					listId: this.listId
+				}
+			}
+
+			e.dataTransfer.setData('Text', JSON.stringify(payload))
 		},
 
 		handleDragEnd() {
