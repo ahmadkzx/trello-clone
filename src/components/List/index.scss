@@ -26,9 +26,9 @@
 	}
 
 	&-cards {
-		padding-left: 1rem;
+		scroll-padding-left: 1rem;
 		max-height: calc(100vh - 9.5rem);
-		overflow-y: scroll;
+		overflow-y: auto;
 		scrollbar-color: $gray-600 transparent;
 		scrollbar-width: thin;
 	
