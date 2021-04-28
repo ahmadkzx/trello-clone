@@ -7,9 +7,14 @@
 	font-size: .85rem;
 	margin-bottom: 1rem;
 	cursor: pointer;
+	transition: all .2s;
 
 	&:active {
 		cursor: grabbing;
+	}
+
+	&.dragging {
+		opacity: 0;
 	}
 
 	&:last-child {

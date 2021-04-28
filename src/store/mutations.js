@@ -19,8 +19,8 @@ export default {
 	},
 
 	moveList(state, { draggedListId, targetListId }) {
-		const draggedListIndex = getListIndex(state.lists, draggedListId)
-		const targetListIndex = getListIndex(state.lists, targetListId)
+		const draggedListIndex = state.lists.findIndex(lst => lst.id === draggedListId)
+		const targetListIndex = state.lists.findIndex(lst => lst.id === targetListId)
 
 		const draggedList = state.lists[draggedListIndex]
 		const targetList = state.lists[targetListIndex]
@@ -28,9 +28,23 @@ export default {
 		Vue.set(state.lists, targetListIndex, draggedList)
 		Vue.set(state.lists, draggedListIndex, targetList)
 	},
-}
 
-// HELPERS //
-function getListIndex(lists, id) {
-	return lists.findIndex(lst => lst.id === id)
+	moveCard(state, { draggedCardData, targetCardData }) {
+
+		const draggedCardListIndex = state.lists.findIndex(lst => lst.id === draggedCardData.listId)
+		const targetCardListIndex = state.lists.findIndex(lst => lst.id === targetCardData.listId)
+
+		const draggedCardList = state.lists[draggedCardListIndex]
+		const targetCardList = state.lists[targetCardListIndex]
+
+		const draggedCardIndex = draggedCardList.cards.findIndex(card => card.id === draggedCardData.cardId)
+		const targetCardIndex = targetCardList.cards.findIndex(card => card.id === targetCardData.cardId)
+
+		const draggedCard = draggedCardList.cards[draggedCardIndex]
+		const targetCard = targetCardList.cards[targetCardIndex]
+		
+		Vue.set(state.lists[targetCardListIndex].cards, targetCardIndex, draggedCard)
+		Vue.set(state.lists[draggedCardListIndex].cards, draggedCardIndex, targetCard)
+
+	}
 }

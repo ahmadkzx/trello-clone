@@ -1,10 +1,10 @@
 <template>
 	<div
 		draggable
-		class="card" 
 		@drop.stop="handleDrop"
 		@dragend.stop="handleDragEnd"
 		@dragstart.stop="handleStartDrag"
+		:class="['card', { 'dragging': isDragging }]" 
 	>
 		<p class="card-summary">{{ cardSummary }}</p>
 	</div>
@@ -41,12 +41,19 @@ export default {
 
 	methods: {
 		handleDrop(e) {
-			const draggedListId = e.dataTransfer.getData('Text')
-			console.log(JSON.parse(draggedListId))
+			const draggedCardData = e.dataTransfer.getData('Text')
+			if (!draggedCardData) return
+			
+			const draggedCardDataObj = JSON.parse(draggedCardData)
 
-			if (!draggedListId) return
+			const payload = {
+				draggedCardData: draggedCardDataObj,
+				targetCardData: {
+					listId: this.listId, cardId: this.cardId
+				}
+			}
 
-    	// this.$store.commit('moveList', { from: draggedListId, to: this.listId })
+    	this.$store.commit('moveCard', payload)
 		},
 
 		handleStartDrag(e) {
