@@ -1,27 +1,31 @@
 <template>
-  <div
-		:class="['list', { 'dragging': isDragging }]"
+	<div
+		:class="['list-container', {'dragOver': isDragOver }]"
 		draggable
 		@drop="handleDrop"
 		@dragend="handleDragEnd"
+		@dragenter="handleDragEnter"
+		@dragleave="handleDragLeave"
 		@dragstart="handleStartDrag"
 	>
-    <div class="list-header">
-      <span class="list-header__title">{{ listName }}</span>
-    </div>
+		<div :class="['list', { 'dragging': isDragging }]">
+			<div class="list-header">
+				<span class="list-header__title">{{ listName }}</span>
+			</div>
 
-		<div class="list-cards" v-if="listCards.length">
-			<Card
-				:listId="listId"
-				:cardId="card.id"
-				:key="`${listId}-${index}`"
-				:cardSummary="card.summary"
-				v-for="(card, index) in listCards"
-			/>
+			<div class="list-cards" v-if="listCards.length">
+				<Card
+					:listId="listId"
+					:cardId="card.id"
+					:key="`${listId}-${index}`"
+					:cardSummary="card.summary"
+					v-for="(card, index) in listCards"
+				/>
+			</div>
+
+			<AddCard :listId="listId" />
 		</div>
-
-		<AddCard :listId="listId" />
-  </div>
+	</div>
 </template>
 
 <script>
@@ -53,22 +57,28 @@ export default {
     listId: {
 			type: [Number, String],
 			required: true
+		},
+
+		draggingListOffset: {
+			defautl: 0,
+			type: Number
 		}
   },
 
 	data: () => ({
-		isDragging: false
+		isDragging: false,
+		isDragOver: false,
 	}),
 
 	methods: {
 		handleDrop(e) {
-			const dragData = e.dataTransfer.getData('Text')
-			if (!dragData) return
-			
-			const dragDataObj = JSON.parse(dragData)
-			if (dragData.type === 'card') return
+			const dragData = this.getDragData(e.dataTransfer)
+			if (!dragData || dragData?.data.listId === this.listId) return
 
-    	this.$store.commit('moveList', { draggedListId: dragDataObj.data.listId, targetListId: this.listId })
+    	this.$store.commit('moveList', { draggedListId: dragData.data.listId, targetListId: this.listId })
+			this.isDragOver = false
+			this.changeElementPostion('0')
+			this.$emit('update:draggingListOffset', 0)
 		},
 
 		handleStartDrag(e) {
@@ -76,15 +86,46 @@ export default {
 			const payload = {
 				type: 'list',
 				data: {
-					listId: this.listId
+					listId: this.listId,
 				}
 			}
 
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
+			this.$emit('update:draggingListOffset', this.$el.offsetLeft)
 		},
 
 		handleDragEnd() {
 			this.isDragging = false
+		},
+
+		handleDragEnter(e) {
+			if (!this.draggingListOffset || this.isDragging) return
+
+			this.isDragOver = true
+			const position = (this.$el.offsetLeft - this.draggingListOffset) * -1
+			this.changeElementPostion(`${position}px`)
+			
+		},
+
+		handleDragLeave(e) {
+			if (!e.target.classList.contains('list-container') || this.isDragging) return
+			this.changeElementPostion('0')
+			this.isDragOver = false
+		},
+
+		getDragData(dataTransfer) {
+			const dragData = dataTransfer.getData('Text')
+			if (!dragData) return
+			
+			const dragDataObj = JSON.parse(dragData)
+			if (dragData.type === 'card') return null
+
+			return dragDataObj
+		},
+
+		changeElementPostion(position) {
+			const targetEl = this.$el.querySelector('.list')
+			targetEl.style.left = position
 		}
 	}
 }

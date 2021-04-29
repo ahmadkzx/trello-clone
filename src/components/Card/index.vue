@@ -41,7 +41,7 @@ export default {
 
 	methods: {
 		handleDrop(e) {
-			const dragData = e.dataTransfer.getData('Text')
+			const dragData = this.getDragData(e.dataTransfer)
 			if (!dragData) return
 			
 			const dragDataObj = JSON.parse(dragData)
@@ -73,7 +73,17 @@ export default {
 
 		handleDragEnd() {
 			this.isDragging = false
-		}
+		},
+
+		getDragData(dataTransfer) {
+			const dragData = dataTransfer.getData('Text')
+			if (!dragData) return
+
+			const dragDataObj = JSON.parse('' + dragData)
+			if (dragData.type === 'list') return null
+
+			return dragDataObj
+		},
 	}
 }
 </script>
