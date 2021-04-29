@@ -4,8 +4,6 @@
 		draggable
 		@drop="handleDrop"
 		@dragend="handleDragEnd"
-		@dragenter="handleDragEnter"
-		@dragleave="handleDragLeave"
 		@dragstart="handleDragStart"
 	>
 		<div :class="['list', { 'dragging': isDragging }]">
@@ -58,16 +56,10 @@ export default {
 			type: [Number, String],
 			required: true
 		},
-
-		draggingListOffset: {
-			defautl: 0,
-			type: Number
-		}
   },
 
 	data: () => ({
 		isDragging: false,
-		isDragOver: false,
 	}),
 
 	methods: {
@@ -81,22 +73,6 @@ export default {
 			}
 
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
-			this.$emit('update:draggingListOffset', this.$el.offsetLeft)
-		},
-
-		handleDragEnter(e) {
-			if (!this.draggingListOffset || this.isDragging) return
-
-			this.isDragOver = true
-			const position = (this.$el.offsetLeft - this.draggingListOffset) * -1
-			this.changeElementPostion(`${position}px`)
-			
-		},
-
-		handleDragLeave(e) {
-			if (!e.target.classList.contains('list-container') || this.isDragging) return
-			this.changeElementPostion('0')
-			this.isDragOver = false
 		},
 
 		handleDragEnd() {
@@ -107,10 +83,7 @@ export default {
 			const dragData = this.getDragData(e.dataTransfer)
 			if (!dragData || dragData?.data.listId === this.listId) return
 
-			this.isDragOver = false
     	this.$store.commit('moveList', { draggedListId: dragData.data.listId, targetListId: this.listId })
-			this.changeElementPostion('0')
-			this.$emit('update:draggingListOffset', 0)
 		},
 
 		getDragData(dataTransfer) {
@@ -122,11 +95,6 @@ export default {
 
 			return dragDataObj
 		},
-
-		changeElementPostion(position) {
-			const targetEl = this.$el.querySelector('.list')
-			targetEl.style.left = position
-		}
 	}
 }
 </script>
