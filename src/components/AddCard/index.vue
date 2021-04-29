@@ -9,8 +9,7 @@
 		</button>
 
 		<div class="add-card-form" v-if="isShowForm">
-			<input
-				type="text"
+			<textarea
 				v-model="cardSummary"
 				class="add-card-form__input text-input text-input"
 				placeholder="خلاصه کار"
