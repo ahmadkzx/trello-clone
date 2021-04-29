@@ -71,31 +71,17 @@ export default {
 	}),
 
 	methods: {
-		handleDrop(e) {
-			const dragData = this.getDragData(e.dataTransfer)
-			if (!dragData || dragData?.data.listId === this.listId) return
-
-    	this.$store.commit('moveList', { draggedListId: dragData.data.listId, targetListId: this.listId })
-			this.isDragOver = false
-			this.changeElementPostion('0')
-			this.$emit('update:draggingListOffset', 0)
-		},
-
-		handleStartDrag(e) {
+		handleDragStart(e) {
 			this.isDragging = true
 			const payload = {
 				type: 'list',
 				data: {
-					listId: this.listId,
+					listId: this.listId
 				}
 			}
 
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
 			this.$emit('update:draggingListOffset', this.$el.offsetLeft)
-		},
-
-		handleDragEnd() {
-			this.isDragging = false
 		},
 
 		handleDragEnter(e) {
@@ -111,6 +97,20 @@ export default {
 			if (!e.target.classList.contains('list-container') || this.isDragging) return
 			this.changeElementPostion('0')
 			this.isDragOver = false
+		},
+
+		handleDragEnd() {
+			this.isDragging = false
+		},
+
+		handleDrop(e) {
+			const dragData = this.getDragData(e.dataTransfer)
+			if (!dragData || dragData?.data.listId === this.listId) return
+
+			this.isDragOver = false
+    	this.$store.commit('moveList', { draggedListId: dragData.data.listId, targetListId: this.listId })
+			this.changeElementPostion('0')
+			this.$emit('update:draggingListOffset', 0)
 		},
 
 		getDragData(dataTransfer) {
