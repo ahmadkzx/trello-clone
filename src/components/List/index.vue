@@ -6,7 +6,7 @@
 		@dragend="handleDragEnd"
 		@dragenter="handleDragEnter"
 		@dragleave="handleDragLeave"
-		@dragstart="handleStartDrag"
+		@dragstart="handleDragStart"
 	>
 		<div :class="['list', { 'dragging': isDragging }]">
 			<div class="list-header">
