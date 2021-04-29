@@ -1,12 +1,9 @@
 const preventDragAndDropEvents = {
-	mounted() {
-		this.setEventListeners()
-	},
-
 	methods: {
-		setEventListeners() {
+		preventDragEvents(el) {
+			console.log(el)
 			const events = [ 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop' ]
-			events.forEach(evt => this.$el.addEventListener(evt, e => {
+			events.forEach(evt => el.addEventListener(evt, e => {
 				e.preventDefault()
 				e.stopPropagation()
 			}))

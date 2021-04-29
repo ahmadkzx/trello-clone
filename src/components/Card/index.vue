@@ -39,6 +39,10 @@ export default {
 		isDragging: false
 	}),
 
+	mounted() {
+		this.preventDragEvents(this.$el)
+	},
+
 	methods: {
 		handleDrop(e) {
 			const dragData = this.getDragData(e.dataTransfer)

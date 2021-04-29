@@ -3,33 +3,24 @@
 .list-container {
 	position: relative;
 	margin-left: 1rem;
-
-	&.dragOver {
-		width: 16rem;
-		min-width: 16rem;
-		height: calc(100vh - 2rem);
-
-		.list {
-			position: absolute;
-			transition: all .2s;
-		}
-	}
+	min-width: 16rem;
+	height: calc(100vh - 2rem);
 }
 
 .list {
 	position: relative;
-	width: 16rem;
-	min-width: 16rem;
+	width: 100%;
 	padding: .5rem 1rem 1rem 1rem;
 	border-radius: .2rem;
 	background: $gray-700;
-	cursor: cursor;
+	cursor: pointer;
 	top: 0;
 	left: 0;
 	transition: all .2s;
 
 	&.dragging {
 		opacity: 0;
+		z-index: 10;
 	}
 
 	&-header {

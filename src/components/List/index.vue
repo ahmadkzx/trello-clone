@@ -1,12 +1,7 @@
 <template>
-	<div
-		:class="['list-container', {'dragOver': isDragOver }]"
-		draggable
-		@drop="handleDrop"
-		@dragend="handleDragEnd"
-		@dragstart="handleDragStart"
-	>
-		<div :class="['list', { 'dragging': isDragging }]">
+	<div class="list-container">
+
+		<div :class="['list', { 'dragging': isCurrentListDragging }]" draggable @dragend="handleDragEnd" @dragstart="handleDragStart">
 			<div class="list-header">
 				<span class="list-header__title">{{ listName }}</span>
 			</div>
@@ -23,12 +18,15 @@
 
 			<AddCard :listId="listId" />
 		</div>
+
+		<ListDragArea v-if="isDraggingList" :listId="listId" />
 	</div>
 </template>
 
 <script>
 import Card from '../Card'
 import AddCard from '../AddCard'
+import ListDragArea from '../ListDragArea'
 import preventDragAndDropEvents from '@/mixins/preventDragAndDropEvents'
 
 export default {
@@ -38,7 +36,8 @@ export default {
 
 	components: {
 		Card,
-		AddCard
+		AddCard,
+		ListDragArea
 	},
 
   props: {
@@ -56,15 +55,23 @@ export default {
 			type: [Number, String],
 			required: true
 		},
+
+		isDraggingList: {
+			type: Boolean,
+			default: false
+		}
   },
 
 	data: () => ({
-		isDragging: false,
+		isCurrentListDragging: false
 	}),
+
+	mounted() {
+		this.preventDragEvents(this.$el.querySelector('.list'))
+	},
 
 	methods: {
 		handleDragStart(e) {
-			this.isDragging = true
 			const payload = {
 				type: 'list',
 				data: {
@@ -73,27 +80,13 @@ export default {
 			}
 
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
+			this.$emit('update:isDraggingList', true)
+			this.isCurrentListDragging = true
 		},
 
 		handleDragEnd() {
-			this.isDragging = false
-		},
-
-		handleDrop(e) {
-			const dragData = this.getDragData(e.dataTransfer)
-			if (!dragData || dragData?.data.listId === this.listId) return
-
-    	this.$store.commit('moveList', { draggedListId: dragData.data.listId, targetListId: this.listId })
-		},
-
-		getDragData(dataTransfer) {
-			const dragData = dataTransfer.getData('Text')
-			if (!dragData) return
-			
-			const dragDataObj = JSON.parse(dragData)
-			if (dragData.type === 'card') return null
-
-			return dragDataObj
+			this.$emit('update:isDraggingList', false)
+			this.isCurrentListDragging = false
 		},
 	}
 }

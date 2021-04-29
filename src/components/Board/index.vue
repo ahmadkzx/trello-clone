@@ -6,7 +6,7 @@
       :listName="list.name"
       :listCards="list.cards"
       v-for="list in lists"
-			:draggingListOffset.sync="draggingListOffset"
+			:isDraggingList.sync="isDraggingList"
     />
     <CreateList />
   </div>
@@ -25,7 +25,7 @@ export default {
   },
 
 	data: () => ({
-		draggingListOffset: 0
+		isDraggingList: false
 	}),
 
   computed: {
