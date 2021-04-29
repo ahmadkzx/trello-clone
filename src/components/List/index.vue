@@ -19,7 +19,7 @@
 			<AddCard :listId="listId" />
 		</div>
 
-		<ListDragArea v-if="isDraggingList" :listId="listId" />
+		<ListDragArea v-show="drggingListOffset" :drggingListOffset="drggingListOffset" :listId="listId" />
 	</div>
 </template>
 
@@ -56,8 +56,8 @@ export default {
 			required: true
 		},
 
-		isDraggingList: {
-			type: Boolean,
+		drggingListOffset: {
+			type: Number,
 			default: false
 		}
   },
@@ -80,12 +80,12 @@ export default {
 			}
 
 			e.dataTransfer.setData('Text', JSON.stringify(payload))
-			this.$emit('update:isDraggingList', true)
+			this.$emit('update:drggingListOffset', this.$el.offsetLeft)
 			this.isCurrentListDragging = true
 		},
 
 		handleDragEnd() {
-			this.$emit('update:isDraggingList', false)
+			this.$emit('update:drggingListOffset', 0)
 			this.isCurrentListDragging = false
 		},
 	}

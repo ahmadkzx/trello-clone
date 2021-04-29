@@ -16,7 +16,11 @@
 	cursor: pointer;
 	top: 0;
 	left: 0;
-	transition: all .2s;
+	transition: opacity .2s;
+
+	&.animate {
+		transition: all .2s;
+	}
 
 	&.dragging {
 		opacity: 0;
