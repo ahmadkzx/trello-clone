@@ -46,5 +46,14 @@ export default {
 		Vue.set(state.lists[targetCardListIndex].cards, targetCardIndex, draggedCard)
 		Vue.set(state.lists[draggedCardListIndex].cards, draggedCardIndex, targetCard)
 
+	},
+
+	editCard(state, { listId, cardId, data }) {
+		const listIndex = state.lists.findIndex(lst => lst.id === listId)
+
+		const cardIndex = state.lists[listIndex].cards.findIndex(card => card.id === cardId)
+		let card = state.lists[listIndex].cards[cardIndex]
+
+		Object.assign(card, data)
 	}
 }

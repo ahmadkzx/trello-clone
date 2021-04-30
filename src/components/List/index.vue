@@ -1,7 +1,7 @@
 <template>
 	<div class="list-container">
 
-		<div :class="['list', { 'dragging': isCurrentListDragging }]" draggable @dragend="handleDragEnd" @dragstart="handleDragStart">
+		<div :class="['list', { 'dragging': isCurrentListDragging }]" :draggable="!isEditingCard" @dragend="handleDragEnd" @dragstart="handleDragStart">
 			<div class="list-header">
 				<span class="list-header__title">{{ listName }}</span>
 			</div>
@@ -13,6 +13,7 @@
 					:key="`${listId}-${index}`"
 					:cardSummary="card.summary"
 					v-for="(card, index) in listCards"
+					:isEditingCard.sync="isEditingCard"
 				/>
 			</div>
 
@@ -63,6 +64,7 @@ export default {
   },
 
 	data: () => ({
+		isEditingCard: false,
 		isCurrentListDragging: false
 	}),
 
